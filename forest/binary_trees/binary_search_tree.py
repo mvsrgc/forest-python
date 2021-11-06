@@ -53,3 +53,18 @@ class BinarySearchTree:
 
     def delete(self, key: Any) -> None:
         pass
+
+    def _transplant(self, deleting_node: Node, replacing_node: Optional[Node]) -> None:
+        if deleting_node.parent is None:
+            self.root = replacing_node
+        elif deleting_node == deleting_node.parent.left:
+            deleting_node.parent.left = replacing_node
+        else:
+            deleting_node.parent.right = replacing_node
+
+        if replacing_node:
+            replacing_node.parent = deleting_node.parent
+
+    @property
+    def empty(self) -> bool:
+        return self.root is None
