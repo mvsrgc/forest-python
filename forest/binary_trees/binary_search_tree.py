@@ -18,7 +18,17 @@ class BinarySearchTree:
         self.root: Optional[Node] = None
 
     def search(self, key: Any) -> Optional[Node]:
-        pass
+        current_node: Optional[Node] = self.root
+
+        while current_node:
+            if key < current_node.key:
+                current_node = current_node.left
+            elif key > current_node.key:
+                current_node = current_node.right
+            else:
+                return current_node
+
+        return None
 
     def insert(self, key: Any, data: Any) -> None:
         new_node = Node(key=key, data=data)
