@@ -44,6 +44,8 @@ class BinarySearchTree:
             else:
                 raise tree_exceptions.DuplicateKeyError(key=key)
 
+        new_node.parent = parent
+
         if parent is None:
             self.root = new_node
         elif new_node.key < parent.key:
