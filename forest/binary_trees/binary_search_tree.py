@@ -54,7 +54,32 @@ class BinarySearchTree:
             parent.right = new_node
 
     def delete(self, key: Any) -> None:
-        pass
+        deleting_node = self.search(key=key)
+
+        if self.root is None or deleting_node is None:
+            return None
+
+        if deleting_node.left is None:
+            self._transplant(
+                deleting_node=deleting_node, replacing_node=deleting_node.right
+            )
+        elif deleting_node.right is None:
+            self._transplant(
+                deleting_node=deleting_node, replacing_node=deleting_node.left
+            )
+        else:
+            replacing_node = BinarySearchTree.get_leftmost(node=deleting_node.right)
+            # The leftmost node is not the direct child of the deleting node
+            if replacing_node.parent != deleting_node:
+                self._transplant(
+                    deleting_node=replacing_node,
+                    replacing_node=replacing_node.right,
+                )
+                replacing_node.right = deleting_node.right
+                replacing_node.right.parent = replacing_node
+            self._transplant(deleting_node=deleting_node, replacing_node=replacing_node)
+            replacing_node.left = deleting_node.left
+            replacing_node.left.parent = replacing_node
 
     def _transplant(self, deleting_node: Node, replacing_node: Optional[Node]) -> None:
         if deleting_node.parent is None:
@@ -70,3 +95,48 @@ class BinarySearchTree:
     @property
     def empty(self) -> bool:
         return self.root is None
+
+    @staticmethod
+    def get_leftmost(node: Node) -> Node:
+        current_node = node
+        while current_node.left:
+            current_node = current_node.left
+
+        return current_node
+
+    @staticmethod
+    def get_rightmost(node: Node) -> Node:
+        current_node = node
+        while current_node.right:
+            current_node = current_node.right
+        return current_node
+
+    @staticmethod
+    def get_height(node: Node) -> int:
+        if node.left and node.right:
+            return (
+                max(
+                    BinarySearchTree.get_height(node=node.left),
+                    BinarySearchTree.get_height(node=node.right),
+                )
+                + 1
+            )
+
+        if node.left:
+            return BinarySearchTree.get_height(node=node.left) + 1
+
+        if node.right:
+            return BinarySearchTree.get_height(node=node.right) + 1
+
+        return 0
+
+    @staticmethod
+    def get_predecessor(node: Node) -> Optional[Node]:
+        if node.left:  # Case 1: left child is not empty
+            return BinarySearchTree.get_rightmost(node=node.left)
+        # Case 2: left child is empty
+        parent = node.parent
+        while parent and (node == parent.left):
+            node = parent
+            parent = parent.parent
+        return parent
