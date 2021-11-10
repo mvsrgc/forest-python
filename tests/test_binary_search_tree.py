@@ -25,3 +25,12 @@ def test_simple_case(basic_tree: list) -> None:
     assert tree.get_predecessor(node=tree.root).key == 22
     temp = tree.search(key=24)
     assert tree.get_predecessor(node=temp).key == 23
+    assert tree.get_successor(node=tree.root).key == 24
+    temp = tree.search(key=22)
+    assert tree.get_successor(node=temp).key == 23
+
+    tree.delete(key=22)
+    tree.delete(key=20)
+    tree.delete(key=11)
+
+    assert tree.search(key=22) is None
