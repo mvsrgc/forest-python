@@ -16,4 +16,12 @@ def test_simple_case(basic_tree: list) -> None:
     with pytest.raises(tree_exceptions.DuplicateKeyError):
         tree.insert(23, "23")
 
-    assert tree.search(24).data == "24"
+    assert tree.get_leftmost(node=tree.root).key == 1
+    assert tree.get_leftmost(node=tree.root).data == "1"
+    assert tree.get_rightmost(node=tree.root).key == 34
+    assert tree.get_rightmost(node=tree.root).data == "34"
+    assert tree.search(key=24).data == "24"
+    assert tree.get_height(node=tree.root) == 4
+    assert tree.get_predecessor(node=tree.root).key == 22
+    temp = tree.search(key=24)
+    assert tree.get_predecessor(node=temp).key == 23
