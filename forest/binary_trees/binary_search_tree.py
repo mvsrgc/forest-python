@@ -140,3 +140,15 @@ class BinarySearchTree:
             node = parent
             parent = parent.parent
         return parent
+
+    @staticmethod
+    def get_successor(node: Node) -> Optional[Node]:
+        if node.right:
+            return BinarySearchTree.get_leftmost(node=node.right)
+        parent = node.parent
+
+        while parent and (node == parent.right):
+            node = parent
+            parent = parent.parent
+
+        return parent
