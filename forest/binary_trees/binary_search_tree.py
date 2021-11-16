@@ -13,6 +13,8 @@ class Node:
     left: Optional["Node"] = None
     right: Optional["Node"] = None
     parent: Optional["Node"] = None
+    x: int = -50
+    y: int = 0
 
 
 class BinarySearchTree:
