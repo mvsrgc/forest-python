@@ -1,7 +1,9 @@
 import dataclasses
-from typing import Any, Optional
+from typing import Any, Optional, Iterator
 
 from forest import tree_exceptions
+
+Pairs = Iterator[tuple[Any, Any]]
 
 
 @dataclasses.dataclass
